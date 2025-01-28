@@ -1,0 +1,77 @@
+---
+title: "Page Visits Funnel"
+output: html_notebook
+---
+
+```{r message = FALSE, error=TRUE}
+# load packages
+library(readr)
+library(dplyr)
+```
+
+```{r message = FALSE, error=TRUE}
+# load data
+visits <- read_csv("visits.csv")
+cart <- read_csv("cart.csv")
+checkout <- read_csv("checkout.csv")
+purchase <- read_csv("purchase.csv")
+```
+
+```{r error=TRUE}
+# inspect data frames
+head(visits)
+head(cart)
+head(checkout)
+head(purchase)
+```
+
+```{r error=TRUE}
+# define visits_cart here:
+visits_cart <- visits %>%
+  left_join(cart)
+
+cart %>%
+  filter(is.na(cart_time))
+
+```
+
+```{r error=TRUE}
+# define total_visits here:
+
+
+```
+
+```{r error=TRUE}
+# define visit_no_cart here:
+
+visit_no_cart <- cart %>%
+  left_join(checkout)
+
+visit_no_cart %>%
+  filter(is.na(cart_time))
+
+
+```
+
+```{r error=TRUE}
+# define all_data here:
+
+all_data <- visits %>%
+  left_join(cart) %>%
+  left_join(checkout) %>%
+  left_join(purchase)
+
+head(all_data)
+
+all_data <- all_data %>%
+  mutate(time_to_purchase = purchase_time - visit_time)
+head(all_data)
+
+time_to_purchase <- all_data %>%
+  summarize(mean_time = mean(time_to_purchase, na.rm = TRUE))
+time_to_purchase
+
+```
+
+
+```
